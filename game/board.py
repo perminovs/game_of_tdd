@@ -72,9 +72,11 @@ class Board(IBoard):
             for dy in [-1, 0, 1]:
                 if dx == 0 and dy == 0:
                     continue
-                x = (point.x + dx) % self._width
-                y = (point.y + dy) % self._height
-                yield self._array[y][x]
+                _p = self._get_safe_point(Point(
+                    point.x + dx,
+                    point.y + dy
+                ))
+                yield self._array[_p.y][_p.x]
 
     def _get_safe_point(self, point: Point):
         return Point(x=point.x % self._width, y=point.y % self._height)
@@ -87,6 +89,14 @@ class Board(IBoard):
             if self.get(point) != other.get(point):
                 return False
         return True
+
+    def __repr__(self):
+        return "\n{}\n".format(
+            "\n".join(
+                ' '.join(str(ceil.value) for ceil in row)
+                for row in self._array
+            )
+        )
 
     def iter_points(self):
         for y in range(self.height):
