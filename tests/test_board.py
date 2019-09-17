@@ -36,8 +36,8 @@ def test_get_empty_ceils(board):
 
 
 def test_mark_alive(board, faker):
-    point = Point(x=faker.pyint(min_value=0, max_value=board._width - 1),
-                  y=faker.pyint(min_value=0, max_value=board._height - 1))
+    point = Point(x=faker.pyint(min_value=0, max_value=board.width - 1),
+                  y=faker.pyint(min_value=0, max_value=board.height - 1))
     board.mark_alive(point=point)
     assert not is_empty(board.to_array())
     assert board.get(point) is CeilState.ALIVE
