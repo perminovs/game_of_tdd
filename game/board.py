@@ -17,6 +17,12 @@ class CeilState(Enum):
     DEAD = 0
     ALIVE = 1
 
+    def __str__(self):
+        if self is CeilState.DEAD:
+            return "."
+        else:
+            return "0"
+
 
 class IBoard(metaclass=abc.ABCMeta):
     @property
@@ -67,7 +73,6 @@ class Board(IBoard):
         return self._array[point.y][point.x]
 
     def get_neighbors(self, point: Point) -> Iterator[CeilState]:
-        point = self._get_safe_point(point)
         for dx in [-1, 0, 1]:
             for dy in [-1, 0, 1]:
                 if dx == 0 and dy == 0:
@@ -93,7 +98,7 @@ class Board(IBoard):
     def __repr__(self):
         return "\n{}\n".format(
             "\n".join(
-                ' '.join(str(ceil.value) for ceil in row)
+                ' '.join(str(ceil) for ceil in row)
                 for row in self._array
             )
         )
